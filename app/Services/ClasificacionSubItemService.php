@@ -2,14 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\CategoriaClasificacione;
-use App\Models\ClasificacionSubItem;
+use App\Models\ClasificacionCompra;
 use Illuminate\Http\Request;
 
 class ClasificacionSubItemService{
     
     public static function get_subItems(){
-        return ClasificacionSubItem::all()->map(function($s){
+        return ClasificacionCompra::all()->map(function($s){
             return [
                 'id'=>$s->id,
                 'nombre'=>$s->nombre,
@@ -20,7 +19,7 @@ class ClasificacionSubItemService{
     }
 
     public static function add_sub_item(Request $request){
-        $subitem = new ClasificacionSubItem();
+        $subitem = new ClasificacionCompra();
         $subitem->nombre = $request->nombre;
         $subitem->estado = 1;
         $subitem->clasificacion_id=$request->clasificacion;
@@ -30,7 +29,7 @@ class ClasificacionSubItemService{
     }
 
     public static function update_sub_item(Request $request, $id){
-        $subitem =ClasificacionSubItem::find($id);
+        $subitem =ClasificacionCompra::find($id);
         $subitem->nombre = $request->nombre;
         $subitem->estado = 1;
         $subitem->clasificacion_id=$request->clasificacion;

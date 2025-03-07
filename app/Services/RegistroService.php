@@ -14,7 +14,7 @@ class RegistroService{
         c.nombre as categoria,
         cc.nombre as clasificacion,
         g.nombre as generica,
-        subitem.nombre as compra,
+        compra.nombre as compra,
         ins.nombre as insumo,
         d.nombre as detalle,
         t.nombre as tipo_cuenta,
@@ -23,12 +23,12 @@ class RegistroService{
         
         from registros as r 
         inner join categorias as c on c.id= r.categoria_id
-        inner join categoria_clasificaciones as cc on cc.id=r.clasificacion_id
+        inner join clasificaciones as cc on cc.id=r.clasificacion_id
         left join genericas as g on g.id=r.generica_id
-        left join clasificacion_sub_items as subitem on subitem.id=r.compra_id
+        left join clasificacion_compras as compra on compra.id=r.clasificacioncompra_id
         left join insumos as ins on ins.id=r.insumo_id
         left join detalles as d on d.id=r.detalle_id
-        left join tipo_cuentas as t on t.id=r.tipocuenta_id
+        left join cuenta_tipos as t on t.id=r.cuentatipo_id
         left join comprobante_tipos as comp on comp.id=r.comprobante_id
         left join transaccion_tipos as tra on tra.id=r.transaccion_id
         order by r.id desc
@@ -52,17 +52,18 @@ class RegistroService{
         $registro->clasificacion_id=$request->clasificacion['id'];
 
         $registro->generica_id=$request->generica_gastos?$request->generica_gastos['id']:null;
-        $registro->compra_id=$request->compra?$request->compra['id']:null;
+        $registro->clasificacioncompra_id=$request->compra?$request->compra['id']:null;
         $registro->insumo_id=$request->insumos?$request->insumos['id']:null;
         $registro->detalle_id=$request->detalles?$request->detalles['id']:null;
 
-        $registro->tipocuenta_id=$request->tipo_cuenta;
+        $registro->cuentatipo_id=$request->tipo_cuenta;
         $registro->comprobante_id=$request->comprobante;
         $registro->gasto=$request->gasto;
         $registro->ingreso=$request->ingreso;
         $registro->transaccion_id=$request->transaccion;
         $registro->capital=$request->capital;
         $registro->utilidad=$request->utilidad;
+        $registro->usercreator_id=2;
 
         $registro->save();
 
@@ -82,11 +83,11 @@ class RegistroService{
         $registro->clasificacion_id=$request->clasificacion['id'];
 
         $registro->generica_id=$request->generica_gastos?$request->generica_gastos['id']:null;
-        $registro->compra_id=$request->compra?$request->compra['id']:null;
+        $registro->clasificacioncompra_id=$request->compra?$request->compra['id']:null;
         $registro->insumo_id=$request->insumos?$request->insumos['id']:null;
         $registro->detalle_id=$request->detalles?$request->detalles['id']:null;
 
-        $registro->tipocuenta_id=$request->tipo_cuenta;
+        $registro->cuentatipo_id=$request->tipo_cuenta;
         $registro->comprobante_id=$request->comprobante;
         $registro->gasto=$request->gasto;
         $registro->ingreso=$request->ingreso;

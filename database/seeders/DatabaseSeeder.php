@@ -1,8 +1,6 @@
 <?php
 
 namespace Database\Seeders;
-
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,14 +15,16 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CategoriasSeeder::class,
-            CategoriaClasificacionesSeeder::class,
+            ClasificacionesSeeder::class,
             GenericasSeeder::class,
-            ClasificacionSubItemsSeeder::class,
+            ClasificacionCompraSeeder::class,
             InsumosSeeder::class,
             DetalleSeeder::class,
             TipoCuentaSeeder::class,
             ComprobanteTipoSeeder::class,
-            TransaccionTipoSeeder::class
+            TransaccionTipoSeeder::class,
+            RolSeeder::class,
+            UserSeeder::class
         ]);
     }
 }

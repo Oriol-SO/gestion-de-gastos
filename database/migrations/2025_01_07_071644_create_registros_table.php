@@ -19,16 +19,17 @@ return new class extends Migration
             $table->string('proveedor')->nullable();
             $table->string('empresa');
 
+
             //relacionales
             $table->foreignId('categoria_id')->constrained('categorias');
-            $table->foreignId('clasificacion_id')->constrained('categoria_clasificaciones');
+            $table->foreignId('clasificacion_id')->constrained('clasificaciones');
 
-            //relacionales unllables
+            //relacionales nullables
             $table->unsignedBigInteger('generica_id')->nullable();
             $table->foreign('generica_id')->references('id')->on('genericas');
 
-            $table->unsignedBigInteger('compra_id')->nullable();
-            $table->foreign('compra_id')->references('id')->on('clasificacion_sub_items');
+            $table->unsignedBigInteger('clasificacioncompra_id')->nullable();
+            $table->foreign('clasificacioncompra_id')->references('id')->on('clasificacion_compras');
 
             $table->unsignedBigInteger('insumo_id')->nullable();
             $table->foreign('insumo_id')->references('id')->on('insumos');
@@ -36,8 +37,8 @@ return new class extends Migration
             $table->unsignedBigInteger('detalle_id')->nullable();
             $table->foreign('detalle_id')->references('id')->on('detalles');
 
-            $table->unsignedBigInteger('tipocuenta_id')->nullable();
-            $table->foreign('tipocuenta_id')->references('id')->on('tipo_cuentas');
+            $table->unsignedBigInteger('cuentatipo_id')->nullable();
+            $table->foreign('cuentatipo_id')->references('id')->on('cuenta_tipos');
 
             $table->unsignedBigInteger('comprobante_id')->nullable();
             $table->foreign('comprobante_id')->references('id')->on('comprobante_tipos');
@@ -50,6 +51,7 @@ return new class extends Migration
             $table->double('capital')->nullable();
             $table->double('utilidad')->nullable();
 
+            $table->foreignId('usercreator_id')->constrained('users');
             $table->timestamps();
         });
     }

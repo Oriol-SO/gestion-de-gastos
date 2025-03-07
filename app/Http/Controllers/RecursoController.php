@@ -10,7 +10,7 @@ use App\Services\ComprobanteTipoService;
 use App\Services\DetalleService;
 use App\Services\GenericaService;
 use App\Services\InsumoService;
-use App\Services\TipocuentaService;
+use App\Services\TipoCuentaService;
 use App\Services\TransaccionTipoService;
 use Exception;
 use Illuminate\Http\Request;
@@ -67,7 +67,7 @@ class RecursoController extends Controller
 
     public function get_all_tipo_cuentas(){
         try{
-            return TipocuentaService::get_tipocuentas();
+            return TipoCuentaService::get_tipocuentas();
         }catch(Exception $e){
             return response()->json(['message'=>'error al obtener la lista de tipos de cuentas',$e->getMessage()],405);
         }

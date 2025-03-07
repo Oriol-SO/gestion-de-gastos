@@ -13,7 +13,7 @@ class TipoCuentaSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('tipo_cuentas')->insert([
+        DB::table('cuenta_tipos')->insert([
             ['id' => 1, 'nombre' => 'BCP RODCON'],
             ['id' => 2, 'nombre' => 'BCP RODCON DOLARES'],
             ['id' => 3, 'nombre' => 'NACION LABOON'],

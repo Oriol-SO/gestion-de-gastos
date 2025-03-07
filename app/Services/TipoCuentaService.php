@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\TipoCuenta;
+use App\Models\CuentaTipo;
 use Illuminate\Http\Request;
 
-class TipocuentaService{
+class TipoCuentaService{
     
     public static function get_tipocuentas(){
-        return TipoCuenta::all()->map(function($s){
+        return CuentaTipo::all()->map(function($s){
             return [
                 'id'=>$s->id,
                 'nombre'=>$s->nombre,
@@ -17,24 +17,24 @@ class TipocuentaService{
         });
     }
 
-    public static function add_tipocuenta(Request $request){
-        $tipocuenta = new TipoCuenta();
-        $tipocuenta->nombre = $request->nombre;
-        $tipocuenta->estado = 1;
-        $tipocuenta->save();
+    public static function add_cuenta_tipo(Request $request){
+        $CuentaTipo = new CuentaTipo();
+        $CuentaTipo->nombre = $request->nombre;
+        $CuentaTipo->estado = 1;
+        $CuentaTipo->save();
 
-        return $tipocuenta;
+        return $CuentaTipo;
     }
 
-    public static function update_tipocuenta(Request $request, $id){
-        $tipocuenta =TipoCuenta::find($id);
-        $tipocuenta->nombre = $request->nombre;
-        $tipocuenta->estado = 1;
-        $tipocuenta->save();
-        return $tipocuenta;
+    public static function update_cuenta_tipo(Request $request, $id){
+        $CuentaTipo =CuentaTipo::find($id);
+        $CuentaTipo->nombre = $request->nombre;
+        $CuentaTipo->estado = 1;
+        $CuentaTipo->save();
+        return $CuentaTipo;
     }
 
-    public static function delete_tipocuenta($id){
+    public static function delete_cuenta_tipo($id){
         return [
             'id'=>$id
         ];
