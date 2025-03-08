@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <Headerdefault />
-        <v-main class="ma-0">
+        <v-main class="ma-0 background-main" >
             <router-view v-slot="{ Component }">
                 <transition name="fade" mode="out-in">
                     <component :is="Component" />
@@ -19,3 +19,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+.background-main{
+    background-color: #f6f6f6;
+}
+</style>

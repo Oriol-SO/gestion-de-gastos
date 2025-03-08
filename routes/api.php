@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\GestionUsersController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\InfoFinacieroController;
 use App\Http\Controllers\RecursoController;
 use App\Http\Controllers\RegistroController;
 use Illuminate\Support\Facades\Route;
@@ -16,10 +17,19 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/user', [AuthController::class, 'me'])->name('me');
 
     Route::get('/registros',[RegistroController::class,'get_registros']);
-
+    Route::get('/get-info-financiero',[InfoFinacieroController::class,'get_info']);
     //recursos
+    //categoria
     Route::get('/get-categorias',[RecursoController::class,'get_categorias']);
+    Route::post('/add-new-categoria',[RecursoController::class,'add_categoria']);
+    Route::post('/update-categoria',[RecursoController::class,'update_categoria']);
+
+    //clasificacion
     Route::get('/get-all-clasificaciones',[RecursoController::class,'get_clasificaciones']);
+    Route::post('/add-new-clasificacion',[RecursoController::class,'add_new_clasificacion']);
+    Route::post('/update-clasificacion',[RecursoController::class,'update_clasificacion']);
+
+
     Route::get('/get-all-genericas',[RecursoController::class,'get_genericas']);
     Route::get('/get-all-sub-items-clasificacion',[RecursoController::class,'get_sub_items_clasificacion']);
 
@@ -39,5 +49,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     //RUtas de admin
     Route::get('/get-list-users-for-admin',[GestionUsersController::class,'get_list_users']);
+    Route::post('/add-new-user',[GestionUsersController::class,'add_new_user']);
+    Route::post('/update-user',[GestionUsersController::class,'update_user']);
     
 });

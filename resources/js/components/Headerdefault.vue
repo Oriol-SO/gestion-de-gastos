@@ -1,34 +1,71 @@
 <template>
-    <div>
-      <v-app-bar color="warning">
-          <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-          <v-app-bar-title>Control financiero</v-app-bar-title>
+    <div v-if="user">
+      <v-app-bar  elevation="0" >
+          <img height="100%" class="ml-15" src="/img/eslogan.png" alt="">
+  
           <v-spacer></v-spacer>
-          <v-btn 
-          size="small" 
-          class="text-capitalize"
-          @click="logout()"
+
+          <v-chip 
+          :color="user.rol_id==1?'primary':'purple'"
+
           >
-          <v-icon>mdi-logout</v-icon>
-            salir
-          </v-btn>
+            {{ user.rol_id==1?'Administrador':'Financiero' }}
+          </v-chip>
+
+          <v-menu
+          v-model="menu"
+          :close-on-content-click="false"
+          location="bottom"
+          transition="scale-transition"
+          >
+            <template v-slot:activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  icon
+                >
+                <v-avatar
+                  class="ma-0 pa-0"
+                  size="40"
+                  image="/img/user.jpg"
+                >
+                </v-avatar>
+                </v-btn>
+            </template>
+            <v-sheet
+            class="pa-6"
+            max-width="460"
+            >
+                <h6 class="text-h6 font-weight-bold mb-4">Perfil</h6>
+                <v-card elevation="0">
+                  <template v-slot:title>
+                      <span class="text-h6" >{{ user.name+' '+user.ape_pat+' '+ user.ape_mat }}</span>
+                  </template>
+                  <template v-slot:subtitle>
+                      <span ><v-icon>mdi-account-cog</v-icon>{{ user.rol_id==1?'Administrador':'Financiero' }}</span> <br>
+                      
+                      <span><v-icon>mdi-email</v-icon> {{ user.email }}</span>
+                  </template>
+
+                  <v-card-actions > 
+                    <v-btn 
+                    width="100%"
+                    color="warning"
+                    variant="outlined"
+                    class="text-capitalize"
+                    @click="logout()"
+                    >
+                      <v-icon>mdi-logout</v-icon>
+                      Cerrar Sesión
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+         
+            </v-sheet>
+
+          </v-menu>
+
+        
       </v-app-bar>
-      
-      <v-navigation-drawer
-          v-model="drawer"
-          :location="$vuetify.display.mobile ? 'bottom' : undefined"
-          temporary
-      >
-      <v-list density="compact" nav>
-        <v-list-item 
-          v-for="(item,i) in items" :key="i"
-          :title="item.title" 
-          :value="item.title"
-          :to="{name:item.value}"
-          >
-          </v-list-item>
-        </v-list>
-      </v-navigation-drawer>
     </div>
 </template>
 <script>
@@ -36,47 +73,7 @@ import { authStore } from '../store/modules/auth';
 export default {
   name:'Headerdefault',
   data: () => ({
-    drawer: false,
-    group: null,
-    items: [
-      {
-        title: 'inicio',
-        value: 'inicio.financiero',
-      },
-      {
-        title: 'Categorias',
-        value: 'categorias',
-      },
-      
-      {
-        title: 'Clasificaciones',
-        value: 'clasificaciones',
-      },
-    
-      {
-        title: 'Genericas de gasto',
-        value: 'genericas',
-      },
-      
-      {
-        title: 'Insumos',
-        value: 'insumos',
-      },
-      
-      {
-        title: 'Detalles',
-        value: 'detalles',
-      },
-      /*
-      {
-        title: 'tipo de cuentas',
-        value: 'tipocuentas',
-      },
-      {
-        title: 'Comprobantes',
-        value: 'comprobantes',
-      },*/
-    ],
+    menu:false,
   }),
   computed:{
     user(){
@@ -94,9 +91,6 @@ export default {
     }
   },  
   watch: {
-    group () {
-      this.drawer = false
-    },
     user(newval){
       if(!newval){
         this.$router.push({name:'login'})

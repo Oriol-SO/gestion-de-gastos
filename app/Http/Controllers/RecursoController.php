@@ -17,6 +17,9 @@ use Illuminate\Http\Request;
 
 class RecursoController extends Controller
 {
+    /**
+     * Grupo ed acciones de las categorias
+     */
     public function get_categorias(){
         try{
             return CategoriaService::get_categorias();
@@ -24,7 +27,32 @@ class RecursoController extends Controller
             return response()->json(['messsage'=>'error al obtener la lista de categorias',$e->getMessage()],405);
         }
     }
+    public function add_categoria(Request $request){
+        $request->validate([
+            'nombre'=>'required|max:255',
+        ]);
+        try{
+            return CategoriaService::add_categoria($request);
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
+        }
+    }
+    public function update_categoria(Request $request){
+        $request->validate([
+            'estado'=>'required|boolean',
+            'nombre'=>'required|max:255',
+            'id'=>'required|integer'
+        ]);
+        try{
+            return CategoriaService::update_categoria($request,$request->id);
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
+        }
+    }
 
+    /**
+     * grupo de acciones de clasificaciones
+     */
     public function get_clasificaciones(){
         try{
             return ClasificacionesService::get_clasificaciones();
@@ -32,6 +60,31 @@ class RecursoController extends Controller
             return response()->json(['messsage'=>'error al obtener la lista de clasificaciones',$e->getMessage()],405);
         }
     }
+    public function add_new_clasificacion(Request $request){
+        $request->validate([
+            'nombre'=>'required|max:255',
+            'categoria'=>'required|integer'
+        ]);
+        try{
+            return ClasificacionesService::add_clasificaion($request);
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
+        }
+    }
+    public function update_clasificacion(Request $request){
+        $request->validate([
+            'id'=>'required|integer',
+            'nombre'=>'required|max:255',
+            'categoria'=>'required|integer',
+            'estado'=>'required|boolean',
+        ]);
+        try{
+            return ClasificacionesService::update_clasificacion($request,$request->id);
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
+        }
+    }
+
 
     public function get_genericas(){
         try{

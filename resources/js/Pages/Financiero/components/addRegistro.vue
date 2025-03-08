@@ -29,7 +29,7 @@
                 </v-toolbar-items>
             </v-toolbar>
             <v-card class="py-4 px-5" elevation="0">
-                <form action="" @submit.prevent="agregar()" class="mt-4">
+                <v-form @submit.prevent="agregar"  class="mt-4">
 
                     <v-row>
                         <v-col cols="12" md="2" class="py-0">
@@ -39,8 +39,8 @@
                             v-model="form.fecha"
                             label="Fecha"
                             type="date"
-                            outlined
                             color="primary"
+                            :rules="[rules.required]"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="6" class="py-0">
@@ -49,8 +49,8 @@
                             density="compact"
                             v-model="form.descripcion"
                             label="Descripción"
-                            outlined
                             color="primary"
+                            :rules="[rules.required]"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="4" class="py-0">
@@ -59,8 +59,8 @@
                             density="compact"
                             v-model="form.ordenes"
                             label="Ordenes"
-                            outlined
                             color="primary"
+                            :rules="[rules.required]"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="6" class="py-0">
@@ -69,8 +69,8 @@
                             density="compact"
                             v-model="form.proveedor"
                             label="Proveedor"
-                            outlined
                             color="primary"
+                            :rules="[rules.required]"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="6" class="py-0">
@@ -79,7 +79,7 @@
                             density="compact"
                             v-model="form.empresa"
                             label="Empresa"
-                            outlined
+                            :rules="[rules.required]"
                             color="primary"
                             ></v-text-field>
                         </v-col>
@@ -97,8 +97,8 @@
                             item-title="nombre"
                             return-object
                             label="Categoria"
-                            outlined
-                            color="orange"                            
+                            color="orange"
+                            :rules="[rules.required]"                            
                             ></v-autocomplete>
                         </v-col>
                         <v-col cols="12" md="4" class="py-0">
@@ -110,8 +110,8 @@
                             return-object
                             :items="clasificaciones"
                             label="clasificación"
-                            outlined
                             color="orange"
+                            :rules="[rules.required]"
                             ></v-autocomplete>
                         </v-col>
                         <v-col cols="12" md="4" class="py-0">
@@ -123,7 +123,6 @@
                             item-title="nombre"
                             return-object
                             label="Generica de gastos"
-                            outlined
                             color="orange"
                             ></v-autocomplete>
                         </v-col>
@@ -136,7 +135,6 @@
                             item-title="nombre"
                             return-object
                             label="Compra"
-                            outlined
                             color="orange"
                             ></v-autocomplete>
                         </v-col>
@@ -149,7 +147,6 @@
                             item-title="nombre"
                             return-object
                             label="Insumos"
-                            outlined
                             color="orange"
                             ></v-autocomplete>
                         </v-col>
@@ -162,7 +159,6 @@
                             item-title="nombre"
                             return-object
                             label="Detalles"
-                            outlined
                             color="orange"
                             ></v-autocomplete>
                         </v-col>
@@ -178,7 +174,6 @@
                             item-title="nombre"
                             item-value="id"
                             label="Tipo de cuenta"
-                            outlined
                             color="primary"
                             ></v-autocomplete>
                         </v-col>
@@ -191,7 +186,6 @@
                             item-title="nombre"
                             item-value="id"
                             label="Comprobante"
-                            outlined
                             color="primary"
                             ></v-autocomplete>
                         </v-col>
@@ -201,7 +195,6 @@
                             variant="outlined"
                             density="compact"
                             label="Gasto"
-                            outlined
                             color="primary"
                             ></v-text-field>
                         </v-col>
@@ -211,7 +204,6 @@
                             variant="outlined"
                             density="compact"
                             label="Ingreso"
-                            outlined
                             color="primary"
                             ></v-text-field>
                         </v-col>
@@ -224,7 +216,6 @@
                             item-title="nombre"
                             item-value="id"
                             label="Transacción"
-                            outlined
                             color="primary"
                             ></v-select>
                         </v-col>
@@ -234,7 +225,6 @@
                             variant="outlined"
                             density="compact"
                             label="Capital"
-                            outlined
                             color="primary"
                             ></v-text-field>
                         </v-col>
@@ -244,7 +234,6 @@
                             variant="outlined"
                             density="compact"
                             label="Utilidad"
-                            outlined
                             color="primary"
                             ></v-text-field>
                         </v-col>
@@ -258,7 +247,7 @@
                             </v-btn>
                         </v-col>          
                     </v-row>
-                </form>
+                </v-form>
             </v-card>
         </v-card>
         </v-dialog>
@@ -273,27 +262,32 @@ export default {
         dialog: false,
         loader:false,
         form: new Form({
-            fecha:null,
-            descripcion:null,
-            ordenes:null,
-            proveedor:null,
-            empresa:null,
+            fecha:'',
+            descripcion:'',
+            ordenes:'',
+            proveedor:'',
+            empresa:'',
 
-            categoria:null,
-            clasificacion:null,
-            generica_gastos:null,
-            compra:null,
-            insumos:null,
-            detalles:null,
+            categoria:'',
+            clasificacion:'',
+            generica_gastos:'',
+            compra:'',
+            insumos:'',
+            detalles:'',
 
-            tipo_cuenta:null,
-            comprobante:null,
-            gasto:null,
-            ingreso:null,
-            transaccion:null,
-            capital:null,
-            utilidad:null,
-        })
+            tipo_cuenta:'',
+            comprobante:'',
+            gasto:'',
+            ingreso:'',
+            transaccion:'',
+            capital:'',
+            utilidad:'',
+        }),
+
+        //reglas de validacion
+        rules:{
+            required: (value) => (value!=='' )|| 'Este campo es requerido',
+        },
     }),
     computed:{
         categorias(){
@@ -342,10 +336,16 @@ export default {
         }
     },
     methods: {
-        agregar(){
+        async agregar(event){
+            const results= await event
+            if(results.errors.length>0){
+                return
+            }
+
             this.loader=true;
             this.form.post('/api/add-new-registro').then(()=>{
                this.$emit('refresh')
+               this.dialog=false;
                this.form.reset();
             }).catch(e=>{
                 alert(e)
@@ -366,19 +366,19 @@ export default {
             rsc.fetchTransacciones();
         },
         clearClasificacion(){
-            this.form.clasificacion=null;
+            this.form.clasificacion='';
         },
         clearGenerica(){
-            this.form.generica_gastos=null;
+            this.form.generica_gastos='';
         },
         clearCompra(){
-            this.form.compra=null;
+            this.form.compra='';
         },
         clearInsumos(){
-            this.form.insumos=null;
+            this.form.insumos='';
         },
         clearDetalle(){
-            this.form.detalles=null;
+            this.form.detalles='';
         }
         
     }

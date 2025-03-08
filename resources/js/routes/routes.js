@@ -42,8 +42,9 @@ import UsersAdmin from '../Pages/Admin/users/users.vue';
  */
 const routes=[
     // 🔹 Rutas públicas (sin autenticación)
-    { path: '/:pathMatch(.*)*',name:'notfound', component:NotFound },
+    { path: '/:pathMatch(.*)*',name:'notfound', component:NotFound ,meta:{layout:'notlayout'} },
     
+    {path:'',redirect:{name:'login'}},
     {path: '/login',name:'login',component:Login, meta:{layout:'notlayout'}},
 
 
@@ -57,7 +58,7 @@ const routes=[
         component:IndexAdmin,
         meta:{middleware:[auth,admin]},
         children:[
-            {path:'',redirect:{name:'users.admin'}},
+            {path:'',redirect:{name:'inicio.admin'}},
             {path:'inicio',name:'inicio.admin',component:InicioAdmin},
             {path:'users',name:'users.admin',component:UsersAdmin}
         ]

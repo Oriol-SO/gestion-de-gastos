@@ -32,9 +32,10 @@ export const ResourceStore = defineStore('Resources', {
   actions: {
     /**
      * Obtiene las clasificaciones desde la API y los almacena en el estado
+     * @param {boolean} [load=false] - Forzar la recarga de la api si ya fueron cargados.
      */
-    fetchClasificaciones() {
-      if (this.clasificaciones.length) return;
+    fetchClasificaciones(load=false) {
+      if (this.clasificaciones.length && !load) return;
       axios.get("/api/get-all-clasificaciones")
         .then(response => { this.clasificaciones = response.data; });
     },
@@ -59,9 +60,10 @@ export const ResourceStore = defineStore('Resources', {
 
     /**
      * Obtiene las categorías desde la API.
+     *@param {boolean} [load=false] - Forzar la recarga de la api si ya fueron cargados.
      */
-    fetchCategorias() {
-      if (this.categorias.length) return;
+    fetchCategorias(load=false) {
+      if (this.categorias.length && !load) return;
       axios.get("/api/get-categorias")
         .then(response => { this.categorias = response.data; });
     },

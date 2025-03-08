@@ -27,10 +27,11 @@ class CategoriaService{
     }
 
     public static function update_categoria(Request $request, $id){
-        $categoria= Categoria::find($id);
+        $categoria= Categoria::findOrFail($id);
         $categoria->nombre = $request->nombre;
         $categoria->estado = $request->estado;
         $categoria->save();
+        return $categoria;
     }
 
     public static function delete_categoria($id){

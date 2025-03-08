@@ -106,4 +106,10 @@ class RegistroService{
 
         return 'ok';
     }
+
+    public static function get_balance(){
+        $query="SELECT sum(gasto) as gasto,sum(ingreso) as ingreso,sum(utilidad) as utilidad from registros";
+        $balance =DB::select($query);
+        return $balance;
+    }
 }

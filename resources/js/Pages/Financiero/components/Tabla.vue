@@ -1,7 +1,7 @@
 
 <template>
 
-    <v-card class="pa-0 ma-0" elevation="0">
+    <v-card class="pa-0 ma-0" elevation="2">
         <v-card-title class="d-flex align-middle justify-center">
             <v-text-field
             class="ma-2 my-auto"
@@ -15,57 +15,58 @@
             ></v-text-field>
             <addRegistro @refresh="fetch_registros(false)" />
         </v-card-title>
-    
+        <div class="text-center my-3">
+            <v-btn
+            :disabled="loading"
+            append-icon="mdi-refresh"
+            text="Actualizar"
+            variant="tonal"
+            color="primary"
+            @click="fetch_registros(true)"
+            ></v-btn>
+        </div>
+
+        <v-data-table 
+        :items="registros" 
+        :loading="loading"
+        :search="search"
+        :headers="headers"
+        >
+            <template v-slot:header.fecha="{ column }">
+                <strong>{{ column.title.toUpperCase() }}</strong>
+            </template>
+            <template v-slot:header.descripcion="{ column }">
+                <strong>{{ column.title.toUpperCase() }}</strong>
+            </template>
+            <template v-slot:header.ordenes="{ column }">
+                <strong>{{ column.title.toUpperCase() }}</strong>
+            </template>
+            <template v-slot:header.categoria="{ column }">
+                <strong>{{ column.title.toUpperCase() }}</strong>
+            </template>
+            <template v-slot:header.proveedor="{ column }">
+                <strong>{{ column.title.toUpperCase() }}</strong>
+            </template>
+            <template v-slot:header.empresa="{ column }">
+                <strong>{{ column.title.toUpperCase() }}</strong>
+            </template>
+            <template v-slot:header.clasificacion="{ column }">
+                <strong>{{ column.title.toUpperCase() }}</strong>
+            </template>
+            <template v-slot:header.generica="{ column }">
+                <strong>{{ column.title.toUpperCase() }}</strong>
+            </template>
+
+            <template v-slot:loading>
+                <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
+            </template>
+            <template v-slot:item.actions="{ item }">
+                <EditRegistro :item="item" @refresh="fetch_registros(false)"/>
+            </template>
+        </v-data-table>
+
     </v-card>
 
-    <div class="text-center my-3">
-        <v-btn
-        :disabled="loading"
-        append-icon="mdi-refresh"
-        text="Actualizar"
-        variant="outlined"
-        @click="fetch_registros(true)"
-        ></v-btn>
-    </div>
-
-    <v-data-table 
-    :items="registros" 
-    :loading="loading"
-    :search="search"
-    :headers="headers"
-    >
-        <template v-slot:header.fecha="{ column }">
-            <strong>{{ column.title.toUpperCase() }}</strong>
-        </template>
-        <template v-slot:header.descripcion="{ column }">
-            <strong>{{ column.title.toUpperCase() }}</strong>
-        </template>
-        <template v-slot:header.ordenes="{ column }">
-            <strong>{{ column.title.toUpperCase() }}</strong>
-        </template>
-        <template v-slot:header.categoria="{ column }">
-            <strong>{{ column.title.toUpperCase() }}</strong>
-        </template>
-        <template v-slot:header.proveedor="{ column }">
-            <strong>{{ column.title.toUpperCase() }}</strong>
-        </template>
-        <template v-slot:header.empresa="{ column }">
-            <strong>{{ column.title.toUpperCase() }}</strong>
-        </template>
-        <template v-slot:header.clasificacion="{ column }">
-            <strong>{{ column.title.toUpperCase() }}</strong>
-        </template>
-        <template v-slot:header.generica="{ column }">
-            <strong>{{ column.title.toUpperCase() }}</strong>
-        </template>
-
-        <template v-slot:loading>
-            <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
-        </template>
-        <template v-slot:item.actions="{ item }">
-            <EditRegistro :item="item" @refresh="fetch_registros(false)"/>
-        </template>
-    </v-data-table>
 
 </template>
 <script>

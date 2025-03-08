@@ -1,3 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+.text-warning{
+    color:#fb9a1f
+}
