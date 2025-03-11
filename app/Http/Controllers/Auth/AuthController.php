@@ -32,7 +32,7 @@ class AuthController extends Controller
             $credentials = request(['email', 'password']);
 
             if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'las credenciales no coinciden con nuestros registros'], 401);
+                return response()->json(['message' => 'las credenciales no coinciden con nuestros registros'], 401);
             }
             return $this->respondWithToken($token);       
         }catch(JWTException $e){

@@ -1,4 +1,4 @@
-<template>
+<template>ingles
     <div>
         <v-card class="ma-3" elevation="0" color="transparent">
             <v-card
@@ -13,10 +13,16 @@
                 <v-card-text>
                     <v-row>
                         <v-col cols="12" sm="4">
+                      
                             <v-card 
                             color="green"
                             variant="tonal"
                             >
+                                <template v-slot:prepend>
+                                <v-avatar color="green-darken-2" variant="tonal" size="50">
+                                    <v-icon icon="mdi-finance" size="50"></v-icon>
+                                </v-avatar>
+                                </template>
                                 <template v-slot:title>
                                     <span class=" text-h4 font-weight-bold">{{ this.info?.ingreso }} ./s</span>
                                 </template>
@@ -30,6 +36,11 @@
                             color="red"
                             variant="tonal"
                             >
+                                <template v-slot:prepend>
+                                <v-avatar color="red-darken-2" variant="tonal" size="50">
+                                    <v-icon icon="mdi-cash-off" size="50"></v-icon>
+                                </v-avatar>
+                                </template>
                                 <template v-slot:title>
                                     <span class=" text-h4 font-weight-bold">{{ this.info?.gasto }} ./s</span>
                                 </template>
@@ -43,6 +54,11 @@
                             color="primary"
                             variant="tonal"
                             >
+                                <template v-slot:prepend>
+                                <v-avatar color="blue-darken-2" variant="tonal" size="50">
+                                    <v-icon icon="mdi-cash-refund" size="50"></v-icon>
+                                </v-avatar>
+                                </template>
                                 <template v-slot:title>
                                     <span class=" text-h4 font-weight-bold">{{ this.info?.utilidad }} ./s</span>
                                 </template>
