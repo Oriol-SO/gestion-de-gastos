@@ -6,7 +6,7 @@
 import './bootstrap';
 import { createApp } from 'vue';
 
-import App from './Components/App.vue';
+import App from './components/App.vue';
 
 /**
  * @typedef {Object} Plugins
