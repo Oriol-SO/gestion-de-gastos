@@ -85,6 +85,9 @@ class RecursoController extends Controller
         }
     }
 
+    /**
+     * grupo de acciones de genericas de gasto
+     */
 
     public function get_genericas(){
         try{
@@ -93,7 +96,35 @@ class RecursoController extends Controller
             return response()->json(['message' => 'error al obtener datos genéricos', $e->getMessage()], 405);
         }
     }
+    public function add_new_generica(Request $request){
+        $request->validate([
+            'nombre'=>'required|max:255',
+            'categoria'=>'required|integer'
+        ]);
+        try{
+            return GenericaService::add_generica($request);
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
+        }
+    }
+    public function update_generica(Request $request){
+        $request->validate([
+            'id'=>'required|integer',
+            'nombre'=>'required|max:255',
+            'categoria'=>'required|integer',
+            'estado'=>'required|boolean',
+        ]);
+        try{
+            return GenericaService::update_generica($request,$request->id);
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
+        }
+    }
 
+
+    /**
+     * grupo de acciones de clasificaciones compra
+     */
     public function get_sub_items_clasificacion(){
         try{
             return ClasificacionSubItemService::get_subItems();
@@ -101,7 +132,33 @@ class RecursoController extends Controller
             return response()->json(['message'=>'error al obtener los sub items de la clasificacion',$e->getMessage()],405);
         }
     }
+    public function add_new_item_compra(Request $request){
+        $request->validate([
+            'nombre'=>'required|max:255',
+            'clasificacion'=>'required|integer'
+        ]);
+        try{
+            return ClasificacionSubItemService::add_sub_item($request);
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
+        }
+    }
+    public function update_item_compra(Request $request){
+        $request->validate([
+            'estado'=>'required|boolean',
+            'nombre'=>'required|max:255',
+            'id'=>'required|integer'
+        ]);
+        try{
+            return ClasificacionSubItemService::update_sub_item($request,$request->id);
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
+        }
+    }
 
+    /**
+     * grupo de acciones para los inumos
+     */
     public function get_all_insumos(){
         try{
             return InsumoService::get_insumos();
@@ -109,12 +166,64 @@ class RecursoController extends Controller
             return response()->json(['message'=>'error al obtener los insumos',$e->getMessage()],405);
         }
     }
+    public function add_new_insumo(Request $request){
+        $request->validate([
+            'nombre'=>'required|max:255',
+            'generica'=>'required|integer'
+        ]);
+        try{
+            return InsumoService::add_insumo($request);
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
+        }
+    }
+    public function update_insumo(Request $request){
+        $request->validate([
+            'nombre'=>'required|max:255',
+            'generica'=>'required|integer',
+            'estado'=>'required|boolean',
+            'id'=>'required|integer'
+        ]);
+        try{
+            return InsumoService::update_insumo($request,$request->id);
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
+        }
+    }
 
+    /**
+     * grupo de acciones para los detalles
+     */
     public function get_all_detalles(){
         try{
             return DetalleService::get_detalles();
         }catch(Exception $e){
             return response()->json(['message'=>'error al obtenter la lista de detalles',$e->getMessage()],405);
+        }
+    }
+    public function add_new_detalle(Request $request){
+        $request->validate([
+            'nombre'=>'required|max:255',
+            'insumo'=>'required|integer'
+        ]);
+        try{
+            return DetalleService::add_detalle($request);
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
+        }
+    }
+
+    public function update_detalle(Request $request){
+        $request->validate([
+            'nombre'=>'required|max:255',
+            'insumo'=>'required|integer',
+            'estado'=>'required|boolean',
+            'id'=>'required|integer'
+        ]);
+        try{
+            return DetalleService::update_detalle($request,$request->id);
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
         }
     }
 

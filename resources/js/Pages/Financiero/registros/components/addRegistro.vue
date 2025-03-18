@@ -255,7 +255,7 @@
 </template>
 <script>
 import Form from 'vform'
-import { ResourceStore } from '../../../store/modules/resource';
+import { ResourceStore } from '../../../../store/modules/resource';
 export default {
     name: "addRegistro",
     data: () => ({

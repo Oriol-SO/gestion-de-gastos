@@ -13,13 +13,13 @@
             variant="text"
             v-bind="activatorProps"
             size="small"
-            @click="fetchCategorias"
+            @click="fetchInsumos"
             ></v-btn>
         </template>
 
         <v-card>
             <v-toolbar color="orange-lighten-2">
-                <v-toolbar-title >Editar esta categoría</v-toolbar-title>
+                <v-toolbar-title >Editar detalle</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
                     <v-btn
@@ -33,28 +33,25 @@
                 <form action="" @submit.prevent="update()" class="mt-4">
                     <v-row>
                         <v-col cols="12">
-                            <v-select
-                            :items="categorias"
+                            <v-autocomplete
+                            :items="insumos"
                             item-title="nombre"
                             item-value="id"
-                            label="Seleccione la categoria"
-                            v-model="form.categoria"
+                            label="Seleccione el insumo"
+                            v-model="form.insumo"
                             required
+                            hide-details
                             variant="outlined"
-                            ></v-select>
+                            ></v-autocomplete>
                         </v-col>
                         <v-col cols="12" >
                             <v-text-field
-                            label="Nombre de la categoria"
+                            label="Nombre del detalle"
                             variant="outlined"
                             required
-                            v-model="form.nombre"
-                            density="compact"
                             hide-details
+                            v-model="form.nombre"
                             ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" class="py-0 mb-2">
-                            <TablaItemsCompra :item="item"/>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -62,7 +59,7 @@
                         color="warning"
                         type="submit"
                         :loading="loader"
-                        >Actualizar</v-btn>
+                        >Enviar</v-btn>
                     </v-row>
                 </form>
 
@@ -74,14 +71,10 @@
 
 import Form from 'vform'
 import { ResourceStore } from '../../../../../store/modules/resource';
-import TablaItemsCompra from './tablaItemsCompra.vue';
 export default{
-    name:'updateClasificacion',
+    name:'updateDetalle',
     props:{
         item:{default:null},
-    },
-    components:{
-        TablaItemsCompra
     },
     data(){
         return{
@@ -90,29 +83,29 @@ export default{
             form: new Form({
                 nombre:this.item.nombre,
                 estado:this.item.estado,
-                categoria:this.item.categoria_id,
+                insumo:this.item.insumo_id,
                 id:this.item.id
             }),
         }
     },
     computed:{
-        categorias(){
+        insumos(){
             const rsc=ResourceStore();
-            return rsc.getCategorias.filter((item)=>(item.estado));
+            return rsc.getInsumos.filter((item)=>item.estado );
         }
     },
     methods:{
         /**
-         * funcion para enviar los datos del formulario categoria al servidor
+         * funcion para enviar los datos del formulario de detalle al servidor
          */
          update(){
             this.loader=true;
             this.form.id=this.item.id;
 
-            this.form.post('/api/update-clasificacion').then(response=>{
-                //REFRESCAMOS la carga de clasificaciones
+            this.form.post('/api/update-detalle').then(response=>{
+                //REFRESCAMOS la carga de la lista de detalles de detalles
                 const rsc=ResourceStore();
-                rsc.fetchClasificaciones(true);
+                rsc.fetchDetalles(true);
                 //cerramos el dialog
                 this.dialog=false;
             }).catch(error=>{
@@ -122,14 +115,13 @@ export default{
             })
         },
 
-        
         /**
-         * Si todavia no se ha cargado las categorias ejecutamos la fucion en el store sin forzar la carga
+         * Si todavia no se ha cargado las genericas ejecutamos la fucion en el store sin forzar la carga
          */
-         fetchCategorias(){
+         fetchInsumos(){
             const rsc=ResourceStore();
-            rsc.fetchCategorias();
-         }
+            rsc.fetchInsumos();
+         },
     }
 }
 </script>

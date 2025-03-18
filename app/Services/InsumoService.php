@@ -20,22 +20,22 @@ class InsumoService{
     }
 
     public static function add_insumo(Request $request){
-        $subitem = new Insumo();
-        $subitem->nombre = $request->nombre;
-        $subitem->estado = 1;
-        $subitem->generica_id=$request->generica;
-        $subitem->save();
+        $insumo = new Insumo();
+        $insumo->nombre = $request->nombre;
+        $insumo->estado = 1;
+        $insumo->generica_id=$request->generica;
+        $insumo->save();
 
-        return $subitem;
+        return $insumo;
     }
 
     public static function update_insumo(Request $request, $id){
-        $subitem =Insumo::find($id);
-        $subitem->nombre = $request->nombre;
-        $subitem->estado = 1;
-        $subitem->generica_id=$request->generica;
-        $subitem->save();
-        return $subitem;
+        $insumo =Insumo::find($id);
+        $insumo->nombre = $request->nombre;
+        $insumo->estado = 1;
+        $insumo->generica_id=$request->generica;
+        $insumo->save();
+        return $insumo;
     }
 
     public static function delete_insumo($id){

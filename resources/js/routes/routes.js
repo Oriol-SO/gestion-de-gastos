@@ -12,7 +12,8 @@ import NotFound from '../Pages/errors/notFound.vue';
 import Login from '../Pages/Auth/Login.vue';
 
 import IndexFinanciero from '../Pages/Financiero/index.vue';
-import Registros from '../Pages/Financiero/registros.vue';
+import Iniciofinanciero from '../Pages/Financiero/inicio.vue';
+import Registros from '../Pages/Financiero/registros/registros.vue';
 import Categorias from '../Pages/Financiero/Recursos/Categorias.vue';
 import Clasificaciones from '../Pages/Financiero/Recursos/Clasificaciones.vue';
 import Genericas from '../Pages/Financiero/Recursos/Genericas.vue'
@@ -25,6 +26,7 @@ import Detalles from '../Pages/Financiero/Recursos/Detalles.vue';
 import IndexAdmin from '../Pages/Admin/index.vue';
 import InicioAdmin from '../Pages/Admin/inicio/inicio.vue';
 import UsersAdmin from '../Pages/Admin/users/users.vue';
+
 
 
 /**
@@ -73,7 +75,8 @@ const routes=[
         meta:{middleware:[auth,financiero]},
         children:[
             {path:'',redirect:{name:'inicio.financiero'}},
-            {path:'inicio',name:'inicio.financiero',component:Registros},
+            {path:'inicio',name:'inicio.financiero',component:Iniciofinanciero},
+            {path:'registros',name:'registros.financiero',component:Registros},
             {path:'ges-categorias',name:'categorias',component:Categorias},
             {path:'ges-clasificaciones',name:'clasificaciones',component:Clasificaciones},
             {path:'ges-genericas',name:'genericas',component:Genericas},

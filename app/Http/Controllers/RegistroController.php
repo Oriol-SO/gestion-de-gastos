@@ -10,8 +10,19 @@ use Illuminate\Http\Request;
 class RegistroController extends Controller
 {
     
-    public function get_registros(){
-        return RegistroService::get_registros();
+    /**
+     * obtener los registros de un mes
+     */
+    public function get_registros_mes_actual(){
+        return RegistroService::get_registros_mes_actual();
+    }
+
+
+    /**
+     * obtener los ultimos 50 registros
+     */
+    public function get_ultimos_registros(){
+        return RegistroService::get_ultimos_50_registros();
     }
 
     public function add_registro(Request $request){

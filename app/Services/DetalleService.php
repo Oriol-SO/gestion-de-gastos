@@ -32,7 +32,7 @@ class DetalleService{
     public static function update_detalle(Request $request, $id){
         $detalle =Detalle::find($id);
         $detalle->nombre = $request->nombre;
-        $detalle->estado = 1;
+        $detalle->estado = $request->estado;
         $detalle->insumo_id=$request->insumo;
         $detalle->save();
         return $detalle;

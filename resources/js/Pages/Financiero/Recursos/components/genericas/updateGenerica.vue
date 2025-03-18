@@ -19,7 +19,7 @@
 
         <v-card>
             <v-toolbar color="orange-lighten-2">
-                <v-toolbar-title >Editar esta categoría</v-toolbar-title>
+                <v-toolbar-title >Editar esta Generica de gasto</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
                     <v-btn
@@ -49,12 +49,16 @@
                             variant="outlined"
                             required
                             v-model="form.nombre"
-                            density="compact"
-                            hide-details
                             ></v-text-field>
                         </v-col>
-                        <v-col cols="12" class="py-0 mb-2">
-                            <TablaItemsCompra :item="item"/>
+                        <v-col cols="12" sm="6">
+                            <v-switch
+                            label="Habilitar lista para compras"
+                            color="purple"
+                            hide-details
+                            density="compact"
+                            v-model="form.compras"
+                            ></v-switch>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -74,14 +78,10 @@
 
 import Form from 'vform'
 import { ResourceStore } from '../../../../../store/modules/resource';
-import TablaItemsCompra from './tablaItemsCompra.vue';
 export default{
-    name:'updateClasificacion',
+    name:'updateGenerica',
     props:{
         item:{default:null},
-    },
-    components:{
-        TablaItemsCompra
     },
     data(){
         return{
@@ -91,6 +91,7 @@ export default{
                 nombre:this.item.nombre,
                 estado:this.item.estado,
                 categoria:this.item.categoria_id,
+                compras:this.item.compras,
                 id:this.item.id
             }),
         }
@@ -109,10 +110,10 @@ export default{
             this.loader=true;
             this.form.id=this.item.id;
 
-            this.form.post('/api/update-clasificacion').then(response=>{
-                //REFRESCAMOS la carga de clasificaciones
+            this.form.post('/api/update-generica').then(response=>{
+                //REFRESCAMOS la carga de la lista de genericas de gasto
                 const rsc=ResourceStore();
-                rsc.fetchClasificaciones(true);
+                rsc.fetchGenericas(true);
                 //cerramos el dialog
                 this.dialog=false;
             }).catch(error=>{

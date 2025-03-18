@@ -17,11 +17,7 @@
             variant="outlined"
             class="ma-3 my-auto"
             ></v-text-field>
-            <v-btn
-            color="warning"
-            >
-                agregar
-            </v-btn>
+            <AddInsumo/>
         </v-card-title>
         <v-card-text>
             <v-data-table 
@@ -31,12 +27,10 @@
             :group-by="groupBy"
             >
                 <template v-slot:item.estado="{ item }">
-                   <v-switch
-                   v-model="item.estado"
-                   hide-details
-                    density="compact"
-                   color="primary"
-                   ></v-switch>
+                    <DisableInsumo :item="item" />
+                </template>
+                <template v-slot:item.actions="{ item }">
+                    <UpdateInsumo :item="item"/>
                 </template>
             </v-data-table>
         </v-card-text>
@@ -44,9 +38,17 @@
 </template>
 <script>
 import { ResourceStore } from '../../../store/modules/resource';
+import AddInsumo from './components/insumos/addInsumo.vue';
+import DisableInsumo from './components/insumos/disableInsumo.vue';
+import UpdateInsumo from './components/insumos/updateInsumo.vue';
 
 export default{
     name:'Insumos',
+    components:{
+        AddInsumo,
+        UpdateInsumo,
+        DisableInsumo
+    },
     data(){
         return{
             search:'',
@@ -56,6 +58,7 @@ export default{
                 { title:'Generica' ,key:'generica'},
                 { title: 'nombre', key: 'nombre' },
                 { title: 'estado', key: 'estado' },
+                {title: '',key:'actions'}
 
             ]
         }

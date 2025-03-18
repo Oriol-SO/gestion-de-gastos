@@ -15,6 +15,7 @@ class GenericaService{
                 'nombre'=>$generica->nombre,
                 'categoria'=>$generica->Categoria->nombre,
                 'categoria_id'=>$generica->categoria_id,
+                'compras'=>$generica->compras?true:false,
                 'estado'=>$generica->estado?true:false,
             ];
         });
@@ -25,17 +26,21 @@ class GenericaService{
         $generica->nombre = $request->nombre;
         $generica->estado = 1;
         $generica->categoria_id=$request->categoria;
+        $generica->compras=0;
         $generica->save();
 
         return $generica;
     }
 
-    public static function update_categoria(Request $request, $id){
+    public static function update_generica(Request $request, $id){
         $generica= Generica::find($id);
         $generica->nombre = $request->nombre;
         $generica->estado = $request->estado;
-        $generica->categoria=$request->categoria;
+        $generica->categoria_id=$request->categoria;
+        $generica->compras= $request->compras;
         $generica->save();
+
+        return $generica;
     }
 
     public static function delete_generica($id){

@@ -2,24 +2,22 @@
     <v-dialog
     v-model="dialog"
     transition="dialog-bottom-transition"
-    max-width="700"
+    max-width="800"
     persistent
     >
         <template v-slot:activator="{ props: activatorProps }">
             <v-btn
             prepend-icon="mdi-plus"
-            icon="mdi-pencil"
+            text="Agregar"
             color="warning"
-            variant="text"
             v-bind="activatorProps"
-            size="small"
             @click="fetchCategorias"
             ></v-btn>
         </template>
 
         <v-card>
             <v-toolbar color="orange-lighten-2">
-                <v-toolbar-title >Editar esta categoría</v-toolbar-title>
+                <v-toolbar-title >Agregar nuevo Insumo</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
                     <v-btn
@@ -30,7 +28,7 @@
                 </v-toolbar-items>
             </v-toolbar>
             <v-card-text>
-                <form action="" @submit.prevent="update()" class="mt-4">
+                <form action="" @submit.prevent="agregar()" class="mt-4">
                     <v-row>
                         <v-col cols="12">
                             <v-select
@@ -40,21 +38,31 @@
                             label="Seleccione la categoria"
                             v-model="form.categoria"
                             required
+                            hide-details
+                            @update:modelValue="clearGenerica"
+                            variant="outlined"
+                            ></v-select>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-select
+                            :items="genericas"
+                            item-title="nombre"
+                            item-value="id"
+                            label="Seleccione la generica de gasto"
+                            v-model="form.generica"
+                            required
+                            hide-details
                             variant="outlined"
                             ></v-select>
                         </v-col>
                         <v-col cols="12" >
                             <v-text-field
-                            label="Nombre de la categoria"
+                            label="Nombre del isumo"
                             variant="outlined"
                             required
-                            v-model="form.nombre"
-                            density="compact"
                             hide-details
+                            v-model="form.nombre"
                             ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" class="py-0 mb-2">
-                            <TablaItemsCompra :item="item"/>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -62,7 +70,7 @@
                         color="warning"
                         type="submit"
                         :loading="loader"
-                        >Actualizar</v-btn>
+                        >Enviar</v-btn>
                     </v-row>
                 </form>
 
@@ -74,24 +82,16 @@
 
 import Form from 'vform'
 import { ResourceStore } from '../../../../../store/modules/resource';
-import TablaItemsCompra from './tablaItemsCompra.vue';
 export default{
-    name:'updateClasificacion',
-    props:{
-        item:{default:null},
-    },
-    components:{
-        TablaItemsCompra
-    },
+    name:'addInsumo',
     data(){
         return{
             dialog:false,
             loader:false,
             form: new Form({
-                nombre:this.item.nombre,
-                estado:this.item.estado,
-                categoria:this.item.categoria_id,
-                id:this.item.id
+                categoria:'',
+                generica:'',
+                nombre:''
             }),
         }
     },
@@ -99,21 +99,24 @@ export default{
         categorias(){
             const rsc=ResourceStore();
             return rsc.getCategorias.filter((item)=>(item.estado));
+        },
+        genericas(){
+            const rsc=ResourceStore();
+            return rsc.getGenericas.filter((item)=>(item.estado && item.categoria_id==this.form.categoria));
         }
     },
     methods:{
         /**
-         * funcion para enviar los datos del formulario categoria al servidor
+         * funcion para enviar los datos del formulario de insumo de gasto al servidor
          */
-         update(){
+        agregar(){
             this.loader=true;
-            this.form.id=this.item.id;
-
-            this.form.post('/api/update-clasificacion').then(response=>{
-                //REFRESCAMOS la carga de clasificaciones
+            this.form.post('/api/add-new-insumo').then(response=>{
+                //REFRESCAMOS la carga de insumos
                 const rsc=ResourceStore();
-                rsc.fetchClasificaciones(true);
-                //cerramos el dialog
+                rsc.fetchInsumos(true);
+                //limpiamos el form
+                this.form.reset();
                 this.dialog=false;
             }).catch(error=>{
                 alert(error)
@@ -122,13 +125,21 @@ export default{
             })
         },
 
-        
         /**
          * Si todavia no se ha cargado las categorias ejecutamos la fucion en el store sin forzar la carga
+         * de la misma forma se cargan la lista de genericas
          */
          fetchCategorias(){
             const rsc=ResourceStore();
             rsc.fetchCategorias();
+            rsc.fetchGenericas();
+         },
+
+         /**
+          * funcion para limpiar el valor de  form.generica
+          */
+         clearGenerica(){
+            this.form.generica='';
          }
     }
 }

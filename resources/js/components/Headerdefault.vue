@@ -69,6 +69,11 @@
     </div>
 </template>
 <script>
+/**
+ * Componente que representa el header por defecto en la aplicacion 
+ * es decir que todas las paginas que no tengan un header por defecto se usara este
+ * se puede configurar su uso en los layouts
+ */
 import { authStore } from '../store/modules/auth';
 export default {
   name:'Headerdefault',

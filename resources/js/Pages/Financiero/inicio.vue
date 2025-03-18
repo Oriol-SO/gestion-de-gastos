@@ -1,4 +1,4 @@
-<template>ingles
+<template>
     <div>
         <v-card class="ma-3" elevation="0" color="transparent">
             <v-card
@@ -8,7 +8,7 @@
                     <span class=" text-h4 font-weight-bold">Control Financiero</span>
                 </template>
                 <template v-slot:subtitle>
-                    <span class="text-warning">Registros del control financiero</span>
+                    <span class="text-warning">Resumen financiero</span>
                 </template>
                 <v-card-text>
                     <v-row>
@@ -70,21 +70,13 @@
                     </v-row>
                 </v-card-text>
             </v-card>
-            
-            <v-card-text class="mt-2">
-                <Tabla/>
-            </v-card-text>
         </v-card>
     </div>
 </template>
 <script>
 import axios from 'axios';
-import Tabla from './components/Tabla.vue';
 export default {
-    name:'Registros',
-    components:{
-        Tabla
-    },
+    name:'inicio',
     data(){
         return{
             info:null,

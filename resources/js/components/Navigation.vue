@@ -59,6 +59,10 @@
     </v-navigation-drawer>
 </template>
 <script>
+/**
+ * Componente vue para navegar a las diferentes paginas.
+ * se le pasa como prop la lista de links po paginas a las cuales se quiere acceder
+ */
 export default{
    name:'navigation',
    props:{

@@ -14,17 +14,18 @@
             v-model="search"
             ></v-text-field>
             <addRegistro @refresh="fetch_registros(false)" />
+            <div class="text-center my-auto">
+                <v-btn
+                :disabled="loading"
+                append-icon="mdi-refresh"
+                text="Actualizar"
+                variant="tonal"
+                color="primary"
+                @click="fetch_registros(true)"
+                ></v-btn>
+            </div>
         </v-card-title>
-        <div class="text-center my-3">
-            <v-btn
-            :disabled="loading"
-            append-icon="mdi-refresh"
-            text="Actualizar"
-            variant="tonal"
-            color="primary"
-            @click="fetch_registros(true)"
-            ></v-btn>
-        </div>
+
 
         <v-data-table 
         :items="registros" 
@@ -108,7 +109,7 @@ export default {
     methods: {
         fetch_registros( load=false){
             this.loading=load;
-            axios.get('/api/registros').then(response=>{
+            axios.get('/api/get-ultimos-registros').then(response=>{
                 this.registros=response.data;
             }).catch(e=>{
 

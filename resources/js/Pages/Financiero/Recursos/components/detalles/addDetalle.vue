@@ -2,24 +2,22 @@
     <v-dialog
     v-model="dialog"
     transition="dialog-bottom-transition"
-    max-width="700"
+    max-width="800"
     persistent
     >
         <template v-slot:activator="{ props: activatorProps }">
             <v-btn
             prepend-icon="mdi-plus"
-            icon="mdi-pencil"
+            text="Agregar"
             color="warning"
-            variant="text"
             v-bind="activatorProps"
-            size="small"
-            @click="fetchCategorias"
+            @click="fetchInsumos_"
             ></v-btn>
         </template>
 
         <v-card>
             <v-toolbar color="orange-lighten-2">
-                <v-toolbar-title >Editar esta categoría</v-toolbar-title>
+                <v-toolbar-title >Agregar nuevo Insumo</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
                     <v-btn
@@ -30,31 +28,41 @@
                 </v-toolbar-items>
             </v-toolbar>
             <v-card-text>
-                <form action="" @submit.prevent="update()" class="mt-4">
+                <form action="" @submit.prevent="agregar()" class="mt-4">
                     <v-row>
                         <v-col cols="12">
-                            <v-select
-                            :items="categorias"
+                            <v-autocomplete
+                            :items="genericas"
                             item-title="nombre"
                             item-value="id"
-                            label="Seleccione la categoria"
-                            v-model="form.categoria"
+                            label="Seleccione la generica"
+                            v-model="form.generica"
                             required
+                            hide-details
                             variant="outlined"
-                            ></v-select>
+                            @update:modelValue="clearInsumo"
+                            ></v-autocomplete>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-autocomplete
+                            :items="insumos"
+                            item-title="nombre"
+                            item-value="id"
+                            label="Seleccione el insumo"
+                            v-model="form.insumo"
+                            required
+                            hide-details
+                            variant="outlined"
+                            ></v-autocomplete>
                         </v-col>
                         <v-col cols="12" >
                             <v-text-field
-                            label="Nombre de la categoria"
+                            label="Nombre del isumo"
                             variant="outlined"
                             required
-                            v-model="form.nombre"
-                            density="compact"
                             hide-details
+                            v-model="form.nombre"
                             ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" class="py-0 mb-2">
-                            <TablaItemsCompra :item="item"/>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -62,7 +70,7 @@
                         color="warning"
                         type="submit"
                         :loading="loader"
-                        >Actualizar</v-btn>
+                        >Enviar</v-btn>
                     </v-row>
                 </form>
 
@@ -71,49 +79,46 @@
     </v-dialog>
 </template>
 <script>
-
+/**
+ * componente para agregar un nuevo detalle del insumo
+ */
 import Form from 'vform'
 import { ResourceStore } from '../../../../../store/modules/resource';
-import TablaItemsCompra from './tablaItemsCompra.vue';
 export default{
-    name:'updateClasificacion',
-    props:{
-        item:{default:null},
-    },
-    components:{
-        TablaItemsCompra
-    },
+    name:'addDetalle',
     data(){
         return{
             dialog:false,
             loader:false,
             form: new Form({
-                nombre:this.item.nombre,
-                estado:this.item.estado,
-                categoria:this.item.categoria_id,
-                id:this.item.id
+                generica:'',
+                insumo:'',
+                nombre:''
             }),
         }
     },
     computed:{
-        categorias(){
+        insumos(){
             const rsc=ResourceStore();
-            return rsc.getCategorias.filter((item)=>(item.estado));
+            return rsc.getInsumos.filter((item)=>(item.estado && item.generica_id==this.form.generica));
+        },
+        genericas(){
+            const rsc=ResourceStore();
+            return rsc.getGenericas.filter((item)=>(item.estado));
         }
     },
     methods:{
         /**
-         * funcion para enviar los datos del formulario categoria al servidor
+         * funcion para enviar los datos del formulario de detalle de gasto al servidor
          */
-         update(){
+        agregar(){
             this.loader=true;
-            this.form.id=this.item.id;
-
-            this.form.post('/api/update-clasificacion').then(response=>{
-                //REFRESCAMOS la carga de clasificaciones
+            this.form.post('/api/add-new-detalle').then(response=>{
+                //REFRESCAMOS la carga de insumos
                 const rsc=ResourceStore();
-                rsc.fetchClasificaciones(true);
-                //cerramos el dialog
+                rsc.fetchDetalles(true);
+                //limpiamos el form
+                this.form.reset();
                 this.dialog=false;
             }).catch(error=>{
                 alert(error)
@@ -122,13 +127,20 @@ export default{
             })
         },
 
-        
         /**
-         * Si todavia no se ha cargado las categorias ejecutamos la fucion en el store sin forzar la carga
+         * Si todavia no se ha cargado los insumos se vuelve a llamar el store
          */
-         fetchCategorias(){
+         fetchInsumos_(){
             const rsc=ResourceStore();
-            rsc.fetchCategorias();
+            rsc.fetchInsumos();
+            rsc.fetchGenericas();
+         },
+
+        /**
+         * funcion para limpiar el valor de  form.insumo
+         */
+        clearInsumo(){
+            this.form.insumo='';
          }
     }
 }

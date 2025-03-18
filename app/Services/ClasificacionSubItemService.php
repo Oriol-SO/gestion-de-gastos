@@ -31,8 +31,8 @@ class ClasificacionSubItemService{
     public static function update_sub_item(Request $request, $id){
         $subitem =ClasificacionCompra::find($id);
         $subitem->nombre = $request->nombre;
-        $subitem->estado = 1;
-        $subitem->clasificacion_id=$request->clasificacion;
+        $subitem->estado = $request->estado;
+        //$subitem->clasificacion_id=$request->clasificacion;
         $subitem->save();
         return $subitem;
     }

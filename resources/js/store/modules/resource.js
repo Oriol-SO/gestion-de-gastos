@@ -41,19 +41,21 @@ export const ResourceStore = defineStore('Resources', {
     },
 
     /**
-     * Obtiene las genéricas desde la API.
+     * Obtiene la lista de las genéricas de gasto desde la API.
+     *  @param {boolean} [load=false] - Forzar la recarga de la api si ya fueron cargados.
      */
-    fetchGenericas() {
-      if (this.genericas.length) return;
+    fetchGenericas(load=false) {
+      if (this.genericas.length && !load) return;
       axios.get("/api/get-all-genericas")
         .then(response => { this.genericas = response.data; });
     },
 
     /**
      * Obtiene los sub-items de clasificación desde la API.
+     * @param {boolean} [load=false] - Forzar la recarga de la api si ya fueron cargados.
      */
-    fetchSubItems() {
-      if (this.subItems.length) return;
+    fetchSubItems(load =false) {
+      if (this.subItems.length && !load) return;
       axios.get("/api/get-all-sub-items-clasificacion")
         .then(response => { this.subItems = response.data; });
     },
@@ -70,18 +72,20 @@ export const ResourceStore = defineStore('Resources', {
 
     /**
      * Obtiene los insumos desde la API.
+     * @param {boolean} [load=false] - Forzar la recarga de la api si ya fueron cargados.
      */
-    fetchInsumos() {
-      if (this.insumos.length) return;
+    fetchInsumos(load=false) {
+      if (this.insumos.length && !load) return;
       axios.get("/api/get-all-insumos")
         .then(response => { this.insumos = response.data; });
     },
 
     /**
      * Obtiene los detalles desde la API.
+     * @param {boolean} [load=false] - Forzar la recarga de la api si ya fueron cargados.
      */
-    fetchDetalles() {
-      if (this.detalles.length) return;
+    fetchDetalles(load=false) {
+      if (this.detalles.length && !load) return;
       axios.get('/api/get-all-detalles')
         .then(response => { this.detalles = response.data; });
     },

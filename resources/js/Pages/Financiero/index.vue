@@ -15,6 +15,7 @@ export default{
         return{
             routes:[
                 { text: 'Inicio', icon: 'mdi-home', link:'inicio.financiero' },
+                { text: 'Registros', icon: 'mdi-table', link:'registros.financiero' },
                 { text: 'recursos', icon: 'mdi-view-dashboard',
                     group:true,
                     children:[
