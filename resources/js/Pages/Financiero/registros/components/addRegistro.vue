@@ -256,6 +256,7 @@
 <script>
 import Form from 'vform'
 import { ResourceStore } from '../../../../store/modules/resource';
+import { RegistroStore } from '../../../../store/modules/registro';
 export default {
     name: "addRegistro",
     data: () => ({
@@ -341,10 +342,10 @@ export default {
             if(results.errors.length>0){
                 return
             }
-
+            const reg=RegistroStore();
             this.loader=true;
             this.form.post('/api/add-new-registro').then(()=>{
-               this.$emit('refresh')
+               reg.fetchRegistros(true);
                this.dialog=false;
                this.form.reset();
             }).catch(e=>{

@@ -17,6 +17,20 @@ class RegistroController extends Controller
         return RegistroService::get_registros_mes_actual();
     }
 
+    /**
+     * Obtner los registros segun el filtro enviado
+     */
+    public function get_registros_filtro(Request $request){
+        try{
+            
+            return RegistroService::get_registros_filtro($request);
+         
+            
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
+        }
+    }
+
 
     /**
      * obtener los ultimos 50 registros
@@ -83,6 +97,16 @@ class RegistroController extends Controller
         }
     }
 
+    /**
+     * obtiene el total de registros por categoria
+     */
+    public function get_total_registros_for_categoria(){
+        try{
+            return RegistroService::get_total_registros_for_categoria();
+        }catch(Exception $e){
+            return response()->json(['message'=>$e->getMessage()],405);
+        }
+    }
 }
 
 

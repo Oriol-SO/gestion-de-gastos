@@ -1,7 +1,11 @@
 
 <template>
 
-    <v-card class="pa-0 ma-0" elevation="2">
+    <v-card 
+    class="pa-0 ma-0" 
+    elevation="2" 
+    :subtitle="title"
+    >
         <v-card-title class="d-flex align-middle justify-center">
             <v-text-field
             class="ma-2 my-auto"
@@ -13,19 +17,7 @@
             color="warning"
             v-model="search"
             ></v-text-field>
-            <addRegistro @refresh="fetch_registros(false)" />
-            <div class="text-center my-auto">
-                <v-btn
-                :disabled="loading"
-                append-icon="mdi-refresh"
-                text="Actualizar"
-                variant="tonal"
-                color="primary"
-                @click="fetch_registros(true)"
-                ></v-btn>
-            </div>
         </v-card-title>
-
 
         <v-data-table 
         :items="registros" 
@@ -71,19 +63,16 @@
 
 </template>
 <script>
-
-import addRegistro from './addRegistro.vue';
-import axios from 'axios'
 import EditRegistro from './EditRegistro.vue';
+import { RegistroStore } from '../../../../store/modules/registro';
 export default {
     name: 'Tabla',
     components:{
-        addRegistro,
         EditRegistro
     },
     data () {
         return {
-            loading:true,
+            //loading:true,
             search:'',
             headers: [
                 {
@@ -97,26 +86,41 @@ export default {
                 { title: 'Empresa', key: 'empresa' },
                 { title: 'Categoria', key: 'categoria' },
                 { title: 'Clasificación', key: 'clasificacion' },
+                { title: 'Compra', key: 'compra' },
                 { title: 'Generica', key: 'generica' },
+
+                { title: 'Detalle', key: 'detalle' },
+                { title: 'Insumo', key: 'insumo' },
+
+                { title: 'gto', key: 'gasto' },
+                { title: 'ing', key: 'ingreso' },
+                { title: 'tx', key: 'transaccion' },
+                { title: 'cnt', key: 'tipo_cuenta' },
+                { title: 'com', key: 'comprobante' },
+
                 { title: '' , key:'actions'},
             ],
-            registros:[],
+            //registros:[],
         }
     },
     computed:{
-
+        registros(){
+            const reg=RegistroStore();
+            return reg.getRegistros
+        },
+        loading(){
+            const reg=RegistroStore();
+            return reg.getLoader
+        },
+        title(){
+            const reg=RegistroStore();
+            return reg.getTitle
+        }
     },  
     methods: {
-        fetch_registros( load=false){
-            this.loading=load;
-            axios.get('/api/get-ultimos-registros').then(response=>{
-                this.registros=response.data;
-            }).catch(e=>{
-
-            }).finally(()=>{
-                this.loading=false
-            })
-
+        fetch_registros(){
+           const reg=RegistroStore();
+            reg.fetchRegistros();
         },
         editItem(item){
 

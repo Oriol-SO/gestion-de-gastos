@@ -54,9 +54,13 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
     Route::get('/get-ultimos-registros',[RegistroController::class,'get_ultimos_registros']);
-    
+    Route::post('/get-registros-filtro',[RegistroController::class,'get_registros_filtro']);
+    Route::get('/get-total-registros-for-categoria',[RegistroController::class,'get_total_registros_for_categoria']);
+    Route::post('/get-info-resumen-financiero',[InfoFinacieroController::class,'get_info_resumen_financiero']);
+
+
     Route::get('/get-registros-mes-actual',[RegistroController::class,'get_registros_mes_actual']);
-    Route::get('/get-info-financiero',[InfoFinacieroController::class,'get_info']);
+ 
     Route::post('/add-new-registro',[RegistroController::class,'add_registro']);
     Route::post('/update-registro',[RegistroController::class,'update_registro']);
     Route::delete('/delete-registro/{id}',[RegistroController::class,'delete_registro']);

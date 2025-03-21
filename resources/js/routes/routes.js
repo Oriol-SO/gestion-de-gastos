@@ -12,7 +12,7 @@ import NotFound from '../Pages/errors/notFound.vue';
 import Login from '../Pages/Auth/Login.vue';
 
 import IndexFinanciero from '../Pages/Financiero/index.vue';
-import Iniciofinanciero from '../Pages/Financiero/inicio.vue';
+import Iniciofinanciero from '../Pages/Financiero/inicio/inicio.vue';
 import Registros from '../Pages/Financiero/registros/registros.vue';
 import Categorias from '../Pages/Financiero/Recursos/Categorias.vue';
 import Clasificaciones from '../Pages/Financiero/Recursos/Clasificaciones.vue';

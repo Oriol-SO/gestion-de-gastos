@@ -19,12 +19,15 @@
     },
     "dependencies": {
         "@mdi/font": "^7.4.47",
+        "apexcharts": "^4.5.0",
         "cform": "^1.2.6",
         "js-cookie": "^3.0.5",
+        "moment": "^2.30.1",
         "pinia": "^2.3.0",
         "vform": "^2.1.2",
         "vue": "^3.5.13",
         "vue-router": "^4.5.0",
+        "vue3-apexcharts": "^1.8.0",
         "vuetify": "^3.7.6"
     }
 }

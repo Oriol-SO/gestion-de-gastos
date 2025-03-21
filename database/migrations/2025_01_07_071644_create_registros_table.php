@@ -21,8 +21,8 @@ return new class extends Migration
 
 
             //relacionales
-            $table->foreignId('categoria_id')->constrained('categorias');
-            $table->foreignId('clasificacion_id')->constrained('clasificaciones');
+            $table->foreignId('categoria_id')->constrained('categorias')->nullable();
+            $table->foreignId('clasificacion_id')->constrained('clasificaciones')->nullable();
 
             //relacionales nullables
             $table->unsignedBigInteger('generica_id')->nullable();

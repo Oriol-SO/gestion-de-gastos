@@ -6,6 +6,7 @@ use App\Models\Registro;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 class RegistroService{
     
@@ -125,9 +126,56 @@ class RegistroService{
         return 'ok';
     }
 
-    public static function get_balance(){
-        $query="SELECT sum(gasto) as gasto,sum(ingreso) as ingreso,sum(utilidad) as utilidad from registros";
-        $balance =DB::select($query);
-        return $balance;
+    public static function get_total_registros_for_categoria(){
+        $query="SELECT c.nombre AS categoria, COUNT(p.id) AS registros
+        FROM categorias c
+        inner JOIN registros p ON c.id = p.categoria_id
+        GROUP BY c.id, c.nombre";
+        $total =DB::select($query);
+        return $total;
     }
+
+    /**
+     * obtnemos los registros aplicando todos los filtros
+     */
+    public static function get_registros_filtro(Request $request){
+        $tipo=null;
+        $categoria=null;
+        $fechas=null;
+
+        if($request->categoria){
+            $categoria="c.id= $request->categoria";
+        }
+        if($request->fecha1 && $request->fecha2){
+            $fechas="r.fecha BETWEEN '$request->fecha1' AND '$request->fecha2' ";
+        }
+   
+        if($request->tipo){
+            $tipo=$request->tipo==1?"r.ingreso is not null":"r.gasto is not null";
+        }
+        //armamos la condicion
+        $condicion=null;
+        if($categoria){
+            $condicion=$categoria;
+        }
+        if($fechas){
+            if($condicion){
+                $condicion="$condicion AND $fechas";
+            }else{
+                $condicion=$fechas;
+            }
+        }
+        if($tipo){
+            if($condicion){
+                $condicion="$condicion AND $tipo";
+            }else{
+                $condicion=$tipo;
+            }
+        }
+        $condicion=$condicion?"WHERE $condicion":null;
+        $query=self::query_constructor_registros($condicion);
+        $registros =DB::select($query);
+        return $registros;
+    }
+
 }
